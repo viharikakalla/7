@@ -1,0 +1,919 @@
+<!DOCTYPE html><html><head>
+      <title>8051 arithmetic</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:///c:\Users\vihar\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.6.8\node_modules\@shd101wyy\mume\dependencies\katex\katex.min.css">
+      
+      <link rel="stylesheet" href="file:///c:\Users\vihar\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.6.8\node_modules\@shd101wyy\mume\dependencies\font-awesome\css\font-awesome.min.css">
+      
+      <script type="text/javascript" src="file:///c:\Users\vihar\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.6.8\node_modules\@shd101wyy\mume\dependencies\mermaid\mermaid.min.js" charset="UTF-8"></script>
+      
+      
+      
+      
+      
+      <style>
+      /**
+ * prism.js Github theme based on GitHub's theme.
+ * @author Sam Clarke
+ */
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #333;
+  background: none;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.4;
+
+  -moz-tab-size: 8;
+  -o-tab-size: 8;
+  tab-size: 8;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+  padding: .8em;
+  overflow: auto;
+  /* border: 1px solid #ddd; */
+  border-radius: 3px;
+  /* background: #fff; */
+  background: #f5f5f5;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+  padding: .1em;
+  border-radius: .3em;
+  white-space: normal;
+  background: #f5f5f5;
+}
+
+.token.comment,
+.token.blockquote {
+  color: #969896;
+}
+
+.token.cdata {
+  color: #183691;
+}
+
+.token.doctype,
+.token.punctuation,
+.token.variable,
+.token.macro.property {
+  color: #333;
+}
+
+.token.operator,
+.token.important,
+.token.keyword,
+.token.rule,
+.token.builtin {
+  color: #a71d5d;
+}
+
+.token.string,
+.token.url,
+.token.regex,
+.token.attr-value {
+  color: #183691;
+}
+
+.token.property,
+.token.number,
+.token.boolean,
+.token.entity,
+.token.atrule,
+.token.constant,
+.token.symbol,
+.token.command,
+.token.code {
+  color: #0086b3;
+}
+
+.token.tag,
+.token.selector,
+.token.prolog {
+  color: #63a35c;
+}
+
+.token.function,
+.token.namespace,
+.token.pseudo-element,
+.token.class,
+.token.class-name,
+.token.pseudo-class,
+.token.id,
+.token.url-reference .token.variable,
+.token.attr-name {
+  color: #795da3;
+}
+
+.token.entity {
+  cursor: help;
+}
+
+.token.title,
+.token.title .token.punctuation {
+  font-weight: bold;
+  color: #1d3e81;
+}
+
+.token.list {
+  color: #ed6a43;
+}
+
+.token.inserted {
+  background-color: #eaffea;
+  color: #55a532;
+}
+
+.token.deleted {
+  background-color: #ffecec;
+  color: #bd2c00;
+}
+
+.token.bold {
+  font-weight: bold;
+}
+
+.token.italic {
+  font-style: italic;
+}
+
+
+/* JSON */
+.language-json .token.property {
+  color: #183691;
+}
+
+.language-markup .token.tag .token.punctuation {
+  color: #333;
+}
+
+/* CSS */
+code.language-css,
+.language-css .token.function {
+  color: #0086b3;
+}
+
+/* YAML */
+.language-yaml .token.atrule {
+  color: #63a35c;
+}
+
+code.language-yaml {
+  color: #183691;
+}
+
+/* Ruby */
+.language-ruby .token.function {
+  color: #333;
+}
+
+/* Markdown */
+.language-markdown .token.url {
+  color: #795da3;
+}
+
+/* Makefile */
+.language-makefile .token.symbol {
+  color: #795da3;
+}
+
+.language-makefile .token.variable {
+  color: #183691;
+}
+
+.language-makefile .token.builtin {
+  color: #0086b3;
+}
+
+/* Bash */
+.language-bash .token.keyword {
+  color: #0086b3;
+}
+
+/* highlight */
+pre[data-line] {
+  position: relative;
+  padding: 1em 0 1em 3em;
+}
+pre[data-line] .line-highlight-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  display: block;
+  width: 100%;
+}
+
+pre[data-line] .line-highlight {
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: inherit 0;
+  margin-top: 1em;
+  background: hsla(24, 20%, 50%,.08);
+  background: linear-gradient(to right, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
+  pointer-events: none;
+  line-height: inherit;
+  white-space: pre;
+}
+
+pre[data-line] .line-highlight:before, 
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-start);
+  position: absolute;
+  top: .4em;
+  left: .6em;
+  min-width: 1em;
+  padding: 0 .5em;
+  background-color: hsla(24, 20%, 50%,.4);
+  color: hsl(24, 20%, 95%);
+  font: bold 65%/1.5 sans-serif;
+  text-align: center;
+  vertical-align: .3em;
+  border-radius: 999px;
+  text-shadow: none;
+  box-shadow: 0 1px white;
+}
+
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-end);
+  top: auto;
+  bottom: .4em;
+}html body{font-family:"Helvetica Neue",Helvetica,"Segoe UI",Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ul,html body>ol{margin-bottom:16px}html body ul,html body ol{padding-left:2em}html body ul.no-list,html body ol.no-list{padding:0;list-style-type:none}html body ul ul,html body ul ol,html body ol ol,html body ol ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:bold;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:bold}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em !important;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::before,html body code::after{letter-spacing:-0.2em;content:"\00a0"}html body pre>code{padding:0;margin:0;font-size:.85em !important;word-break:normal;white-space:pre;background:transparent;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;font-size:.85em !important;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:before,html body pre tt:before,html body pre code:after,html body pre tt:after{content:normal}html body p,html body blockquote,html body ul,html body ol,html body dl,html body pre{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body pre,html body code{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview .pagebreak,.markdown-preview .newpage{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center !important}.markdown-preview:not([for="preview"]) .code-chunk .btn-group{display:none}.markdown-preview:not([for="preview"]) .code-chunk .status{display:none}.markdown-preview:not([for="preview"]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0}@media screen and (min-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{font-size:14px !important;padding:1em}}@media print{html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,0.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p,html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div{display:inline}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% -  300px);padding:2em calc(50% - 457px -  300px/2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+    </head>
+    <body for="html-export">
+      <div class="mume markdown-preview  ">
+      <h1 class="mume-header" id="8051-instruction-set">8051 INSTRUCTION SET</h1>
+
+<h2 class="mume-header" id="arithematic-instructions"><code>ARITHEMATIC INSTRUCTIONS</code></h2>
+
+<ul>
+<li>It mostly performs 8-bit operations .</li>
+<li>The result of the op-code is stored in <code>A-Register</code>.</li>
+<li>For some special operations <code>B-Register</code> is used .</li>
+</ul>
+<p>&#x2B50;&#xFE0F; <strong>ADDITION OPERATION :</strong><br>
+<strong>1. ADD A,#25</strong></p>
+<ul>
+<li>This instruction adds A-register with the 8-bit DATA , and stores the result in A-register.<br>
+<strong>2.ADD A,REG. (R7 - R0)</strong></li>
+<li>This instruction adds A-register with data present in the specified registers.<br>
+<strong>3. ADD A,25H</strong></li>
+<li>This instruction adds A-register with the content present in the given address.<br>
+<strong>4.ADD A,@(R0/R1)</strong></li>
+<li>Here only <code>R0</code> and <code>R1</code> registers are used .</li>
+<li>This instruction adds A-register with the contents located in R0/R1 .<br>
+<strong>5. ADDC A,#25H</strong><br>
+<code>ADDC - Add with Carry</code></li>
+<li>This instruction adds A-register with more than 8-bit data(16,32) this is done by splitting 16/32 - bit data into parts . Lower bits and Higher bits .</li>
+<li><code>Carry Flag</code> holds the carry of this operation.</li>
+<li><code>8-bit</code>Result is stored in <code>A-register</code> and the remaining <code>1-bit</code> is holds carry in <code>CARRY FLAG</code> .<br>
+<strong>6. ADDC A,R0</strong></li>
+<li>This instruction adds A-register with data present in the specified registers and holds carry in CARRY FLAG .<br>
+<strong>7. ADDC A,25H</strong></li>
+<li>This instruction adds A-register with the content present in the given address and holds carry in CARRY FLAG.<br>
+<strong>8. ADDC A,@R0/R1</strong></li>
+<li>This instruction adds A-register with the contents located in R0/R1 and holds carry in CARRY FLAG.</li>
+</ul>
+<p>&#x2B50;&#xFE0F; <strong>SUBTRACTION OPERATION :</strong><br>
+<code>SUBB - Subtract with Borrow</code></p>
+<ul>
+<li>To do normal subteraction we have to first clear the CARRY FLAG . Else CF will interfear in the operation .<br>
+<strong>9. SUBB A,#25</strong></li>
+<li>This instruction subtracts A-register with the 8-bit DATA , stores the result in A-register and holds carry in CARRY FLAG .<br>
+<strong>10. SUBB A,REG. (R7 - R0)</strong></li>
+<li>This instruction subtracts A-register with data present in the specified registers and holds carry in CARRY FLAG .<br>
+<strong>11. SUBB A,25H</strong></li>
+<li>This instruction subtracts A-register with the content present in the given address and holds carry in CARRY FLAG .<br>
+<strong>12. SUBB A,@(R0/R1)</strong></li>
+<li>Here only <code>R0</code> and <code>R1</code> registers are used .</li>
+<li>This instruction subtracts A-register with the contents located in R0/R1 and holds carry in CARRY FLAG .</li>
+</ul>
+<p>&#x2B50;&#xFE0F; <strong>INCREMENT OPERATION :</strong><br>
+<strong>13. INC A</strong></p>
+<ul>
+<li>Increments the value of A-register .<br>
+<strong>14. INC R0</strong></li>
+<li>Increments the value of given register .<br>
+<strong>15. INC 25H</strong></li>
+<li>Increments the contents of location 25 .<br>
+<strong>16. INC @R0</strong></li>
+<li>Increments the contents ponted by location R0 .<br>
+<strong>17. INC DPTR</strong></li>
+<li>Increments the value of DPTR.</li>
+<li>Requires two cycles to perform operation.</li>
+<li>DPTR only increment is possiable.</li>
+</ul>
+<p>&#x2B50;&#xFE0F; <strong>DECREMENT OPERATION :</strong><br>
+<strong>18. DEC A</strong></p>
+<ul>
+<li>Decrements the value of A-register .<br>
+<strong>19. DEC R0</strong></li>
+<li>Decrements the value of given register .<br>
+<strong>20. DEC 25H</strong></li>
+<li>Decrements the contents of location 25 .<br>
+<strong>21. DEC @R0</strong></li>
+<li>Decrements the contents ponted by location R0 .</li>
+</ul>
+<p>&#x2B50;&#xFE0F; <strong>MULTIPLICATION OPERATION :</strong></p>
+<ul>
+<li>Result of this instruction is 16-bit<br>
+<strong>22. MUL AB</strong></li>
+<li>This instruction multiplies the B-register with A-register and the result is stored in <code>A-register and B-register</code>.</li>
+<li>A - register stores Lower byte .</li>
+<li>B - register stores Higher byte.</li>
+</ul>
+<p>&#x2B50;&#xFE0F; <strong>DIVISION OPERATION :</strong><br>
+<strong>23. DIV AB</strong></p>
+<ul>
+<li>This instruction divides the B-register with A-register and the result is stored in <code>A-register and B-register</code>.</li>
+<li>Where A is DIVIDENT and B is DIVISOR</li>
+<li>A - register stores Quotient .</li>
+<li>B - register stores Remainder.</li>
+</ul>
+<p><strong>24. DA A</strong><br>
+<code>DA A - Decimal Adjust After Addition</code></p>
+<ul>
+<li>This instruction is performrd only after addition .<br>
+Used only after adding 2 decimal numbers .</li>
+</ul>
+<div class="mermaid">graph TB
+A[[DA A operation ]] --&gt; 1[HN &gt; 9 / AC = 1];
+A --&gt; 2[LN &gt; 9 / CF = 1];
+1 ---&gt; a(then add 6 to Higher nibble); 
+2 ---&gt; b(then add 6 to Higher nibble);
+</div><p>DA A instruction follows the following steps :</p>
+<ol>
+<li>Addition.</li>
+<li>Obtain the result (hexadecimal form).</li>
+<li>convert hexadecimal result into decimal form .</li>
+</ol>
+<h2 class="mume-header" id="logicl-instructions"><code>LOGICL INSTRUCTIONS</code></h2>
+
+<p><strong>Only A - register(8-bit) is used to store DATA</strong></p>
+<p>&#x2B50;&#xFE0F; <strong>AND operation :</strong><br>
+ANL - AND Logically</p>
+<ul>
+<li><code>This gate is used to CLEAR the selected Nibble or Bit</code>,by doing AND operation with &apos;0&apos;.<br>
+<strong>1. ANL A,#25H</strong></li>
+<li>This instructiom performs AND operation of A-register with data 25.The result is stored in A.<br>
+<strong>2.ANL A,R0</strong></li>
+<li>This instructiom performs AND operation of A-register with data in R0 register.The result is stored in A.<br>
+<strong>3.ANL A,25H</strong></li>
+<li>This instructiom performs AND operation of A-register with the content in address 25.The result is stored in A.<br>
+<strong>4.ANL A,@R0</strong></li>
+<li>This instructiom performs AND operation of A-register with the contents pointed by R0 .The result is stored in A.<br>
+<strong>5.ANL 25H,A,</strong></li>
+<li>This instructiom performs AND operation of data 25 and A-register.The result is stored in address 25.<br>
+<strong>6.ANL 25H,#25H</strong></li>
+<li>This instructiom performs AND operation of the content in address 25 with data 25 .The result is stored in address 25.</li>
+</ul>
+<p>&#x2B50;&#xFE0F; <strong>OR operation :</strong><br>
+ORL - OR Logically</p>
+<ul>
+<li><code>This gate is used to SET the selected Nibble or Bit</code>,by doing OR operation with &apos;1&apos;.<br>
+<strong>1. ORL A,#25H</strong></li>
+<li>This instructiom performs OR operation of A-register with data 25.The result is stored in A.<br>
+<strong>2.ORL A,R0</strong></li>
+<li>This instructiom performs OR operation of A-register with data in R0 register.The result is stored in A.<br>
+<strong>3.ORL A,25H</strong></li>
+<li>This instructiom performs OR operation of A-register with the content in address 25.The result is stored in A.<br>
+<strong>4.ORL A,@R0</strong></li>
+<li>This instructiom performs OR operation of A-register with the contents pointed by R0 .The result is stored in A.<br>
+<strong>5.ORL 25H,A,</strong></li>
+<li>This instructiom performs OR operation of data 25 and A-register.The result is stored in address 25.<br>
+<strong>6.ORL 25H,#25H</strong></li>
+<li>This instructiom performs OR operation of the content in address 25 with data 25 .The result is stored in address 25.</li>
+</ul>
+<p>&#x2B50;&#xFE0F; <strong>EX-OR operation :</strong><br>
+XRL - EX-OR Logically</p>
+<ul>
+<li><code>This gate is used to COMPLEMENT the selected Nibble or Bit</code>,by doing and operation with &apos;1&apos;.<br>
+<strong>1. XRL A,#25H</strong></li>
+<li>This instructiom performs EX-OR operation of A-register with data 25.The result is stored in A.<br>
+<strong>2.XRL A,R0</strong></li>
+<li>This instructiom performs EX-OR operation of A-register with data in R0 register.The result is stored in A.<br>
+<strong>3.XRL A,25H</strong></li>
+<li>This instructiom performs EX-OR operation of A-register with the content in address 25.The result is stored in A.<br>
+<strong>4.XRL A,@R0</strong></li>
+<li>This instructiom performs EX-OR operation of A-register with the contents pointed by R0 .The result is stored in A.<br>
+<strong>5.XRL 25H,A,</strong></li>
+<li>This instructiom performs EX-OR operation of data 25 and A-register.The result is stored in address 25.<br>
+<strong>6.XRL 25H,#25H</strong></li>
+<li>This instructiom performs EX-OR operation of the content in address 25 with data 25 .The result is stored in address 25.</li>
+</ul>
+<p>&#x2B50;&#xFE0F; <strong>Rotate Instructions :</strong><br>
+<strong>1.RL A</strong></p>
+<ul>
+<li>This instruction rotates all 8-bits towards <code>left</code> within A-register.</li>
+<li>Here carry flag just holds the copied value of MSB.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>CF</th>
+<th>&lt;--</th>
+<th>MSB</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th>LSB</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+<p><strong>1.RR A</strong></p>
+<ul>
+<li>This instruction rotates all 8-bits towards <code>Right</code> within A-register.</li>
+<li>Here carry flag just holds the copied value of MSB.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>MSB</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th>LSB</th>
+<th>--&gt;</th>
+<th>CF</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+<p><strong>3.RLC A</strong></p>
+<ul>
+<li>This instruction rotates all 8-bits towards <code>left</code> along with <code>CF</code> in A-register.</li>
+<li>Here carry flag value is also rotated.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>CF</th>
+<th>MSB</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th>LSB</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+<p><strong>4.RRC A</strong></p>
+<ul>
+<li>This instruction rotates all 8-bits towards <code>right</code> along with <code>CF</code> in A-register.</li>
+<li>Here carry flag value is also rotated.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>MSB</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th>LSB</th>
+<th>CF</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+<p>&#x2B50;&#xFE0F; <strong>CLR A</strong></p>
+<ul>
+<li>This instruction clears the A-Register.</li>
+</ul>
+<p>&#x2B50;&#xFE0F; <strong>CPL A</strong></p>
+<ul>
+<li>This instruction complements the contents in A-register .</li>
+<li>It performs NOT operation .</li>
+</ul>
+<p>&#x2B50;&#xFE0F; <strong>NOP</strong></p>
+<ul>
+<li>This instruction performs <code>No operation</code> .</li>
+<li>It is a software Delay .</li>
+</ul>
+<p>&#x2B50;&#xFE0F; <strong>SWAP A</strong></p>
+<ul>
+<li>This instruction interchanges the values .</li>
+</ul>
+<p>&#x2B50;&#xFE0F; <strong>UNIVERSAL GATES :</strong></p>
+<ul>
+<li><strong>NAND :</strong></li>
+</ul>
+<ol>
+<li>Performs AND operation .</li>
+<li>complements the result of AND operation.</li>
+</ol>
+<ul>
+<li><strong>NOR :</strong></li>
+</ul>
+<ol>
+<li>Performs OR operation .</li>
+<li>complements the result of OR operation.</li>
+</ol>
+<h2 class="mume-header" id="boolean-instructions"><code>BOOLEAN INSTRUCTIONS</code></h2>
+
+<p><strong>BOOLEAN instructions are BIT instructions i.e, they perform bitwise opertions</strong></p>
+<ul>
+<li><strong><code>For bit operations CARRY FLAG is the ACCUMULATOR</code></strong></li>
+<li>For any operation the given data, first have to be stored in CARRY FLAG , only then it performs the operation. After performing the operation the result is stored in Carry flag. We can also move the result stored in CF to other specified register .</li>
+<li>Bits can either be a Carry Flag. Or bits can be a General Bit .
+<ul>
+<li>SFR Bits</li>
+<li>PSW Bits</li>
+<li>Bit Addressable (internal RAM)</li>
+</ul>
+</li>
+</ul>
+<p>&#x2B50;&#xFE0F; <strong>Carry Flag (C)</strong><br>
+<strong>1. SETB C</strong><br>
+sets the carry flag to 1 (CF = 1)<br>
+<strong>2. CLR C</strong><br>
+clears the carry flag to 0 (CF = 0)<br>
+<strong>3. CPL C</strong><br>
+Complements the Carry flag .</p>
+<p>&#x2B50;&#xFE0F; <strong>Any General Bits (b)</strong><br>
+<strong>1. SETB b</strong><br>
+sets the bit to 1 (b = 1).<br>
+<strong>2. CLR b</strong><br>
+clears the bit to 0 (b = 0).<br>
+<strong>3. CPL b</strong><br>
+Complements the bit .</p>
+<p>&#x2B50;&#xFE0F; <strong>MOVES</strong><br>
+<strong>1. MOV C,b</strong><br>
+This instruction moves the data from b to C.And stores the result in C.<br>
+<strong>2. MOV b,C</strong><br>
+This instruction moves the data from C to b.And stores the result in b.</p>
+<p>&#x2B50;&#xFE0F; <strong>LOGIC</strong><br>
+<strong>1. ANL C,b</strong><br>
+This instruction performs AND operation of C and b . The result is stored in C.<br>
+<strong>2. ANL C,/b</strong><br>
+This instruction performs AND operation of C and completed b.The result is stored in C</p>
+<p><strong>3. ORL C,b</strong><br>
+This instruction performs OR operation of C and b . The result is stored in C.<br>
+<strong>4. ORL C,b</strong><br>
+This instruction performs OR operation of C and completed b . The result is stored in C.</p>
+<h2 class="mume-header" id="data-transfer-instructions"><code>DATA TRANSFER INSTRUCTIONS</code></h2>
+
+<p>SYNTAX:</p>
+<table>
+<thead>
+<tr>
+<th>Op-code</th>
+<th>Destination</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+<ul>
+<li>Data is copied from sourct to destination</li>
+<li>In data transfering mode <code>direct addressing mode</code> cannot be used.</li>
+<li>Here <code>A-register</code> is the only <code>destination</code>.<br>
+EXAMPLES :-
+<ul>
+<li><strong>MOV A,#n</strong>   (Where  n = data)</li>
+<li><strong>MOV A,register</strong> (RAM registers)</li>
+<li><strong>MOV A,address</strong></li>
+<li><strong>MOV A,@register pointer</strong> (R0,R1)</li>
+<li><strong>MOV address1,address2</strong></li>
+</ul>
+</li>
+</ul>
+<p>&#x2B50;&#xFE0F; <strong>EXTERNAL RAM :-</strong></p>
+<ul>
+<li><strong>MOVX A,@DPTR</strong></li>
+<li><strong>MOV @DPTR,A</strong></li>
+<li><strong>MOV A,@register pointer</strong> (R0,R1)</li>
+<li><strong>MOV @R0,A</strong></li>
+</ul>
+<p>&#x2B50;&#xFE0F; <strong>ROM :-</strong></p>
+<ul>
+<li><strong>MOVC A,@A+DPTR</strong></li>
+<li><strong>MOV A,@A+PC</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>RULES FOR ADDING EXTERNAL RAM :-</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+<p><i class="fa fa-star" aria-hidden="true"></i> We cannot use direct addressing mode .<br>
+<i class="fa fa-star" aria-hidden="true"></i> We cannot directly add two memory locations .<br>
+<i class="fa fa-star" aria-hidden="true"></i> Data transfer is possiable only with <code>A-register</code> .</p>
+<p>&#x2B50;&#xFE0F; <strong>EXCHANGE INSTRUCTION</strong><br>
+These instructions exchanges the contents of two registers</p>
+<ul>
+<li><strong>XCH A,Rr</strong> (RAM Registers)</li>
+<li><strong>XCH A,Address</strong></li>
+<li><strong>XCH A,@register pointer</strong> (R0,R1)</li>
+<li><strong>XCHD A,@register pointer</strong> (R0,R1)<br>
+<code>Here D-digit.This instruction exchanges &apos;LOWER NIBBLES&apos; of the given registers</code></li>
+</ul>
+<h2 class="mume-header" id="branch-instructions"><code>BRANCH INSTRUCTIONS</code></h2>
+
+<ul>
+<li>Their are 21 branch instructions.</li>
+<li>Branches are of two types :-</li>
+</ul>
+<div class="mermaid">graph TB;
+a[[BRANCH Instruction]] --&gt; b(JUMP);
+a --&gt; c(CALL)
+</div><p>&#x2B50;&#xFE0F; <strong>CALL :-</strong></p>
+<ul>
+<li>&quot;CALL&quot; is used to go to <code>SUBROUTINE</code>.</li>
+<li>Before going to subroutine , the &quot;PC&quot; stores the subroutine address in it .</li>
+<li>The PC also stores the &quot;RETURN ADDRESS&quot;(RA)  as soon as the SUBROUTINE is called.</li>
+<li>The PC <code>pushes</code> the RA on to the <code>STACK</code> to store untill the CALL completes its TASK.</li>
+<li>As soon as the task is completed , the stack <code>pops</code> the RA to the PC .</li>
+</ul>
+<p><img src="https://lh4.googleusercontent.com/Ts7SXia3frAkkWBHG5cX1Hoc69oobRNHDFZY6Xs6yveZeQgzfG2vDZi2YvampbDOOpq6C3rHo7glh1CpPvbFq5GiH0kK9yYufvdcN0cuVWk_dPcYcYnIeiPzjp3wiq_M8qTpHEQv" alt="ISR"></p>
+<p>&#x2B50;&#xFE0F; <strong>RETURN :-</strong><br>
+<i class="fa fa-star" aria-hidden="true"></i> <strong>RET</strong><br>
+It is used to return to the main function.<br>
+<i class="fa fa-star" aria-hidden="true"></i> <strong>RETI</strong><br>
+It is used specially in <code>ISR</code> to return to the main function.</p>
+<p>&#x2B50;&#xFE0F; <strong>JUMPS :-</strong><br>
+<i class="fa fa-star" aria-hidden="true"></i> <strong>Long jump</strong></p>
+<table>
+<thead>
+<tr>
+<th>SYNTAX</th>
+<th>:</th>
+<th>LJMP</th>
+<th>ladd</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+<blockquote>
+<ul>
+<li>RANGE : 0000H - FFFFH (Longest Range - 64KB).</li>
+<li>NEW ADDRESS : PC gets ladd (long address).</li>
+<li>SIZE : 3 bytes .</li>
+</ul>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>LJMP</th>
+<th>ladd</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 byte</td>
+<td>2 bytes</td>
+</tr>
+</tbody>
+</table>
+<p>example :<br>
+<img src="https://lh4.googleusercontent.com/Qjo6WBt2XX4FsoJjhUhf7DHFXz6gZOaPHBSswfG68uo7lU8pVjylWS4pXtqI0yarVdvGGfjDZs_DuyUxJWTWTQKa-lX8p3vUQxolG6VJ3Dxn6fqKRwiRy9SH7bf8Cry35bGruhVC" alt="image"></p>
+<p><i class="fa fa-star" aria-hidden="true"></i> <strong>Short jump</strong></p>
+<table>
+<thead>
+<tr>
+<th>SYNTAX</th>
+<th>:</th>
+<th>SJMP</th>
+<th>radd</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+<blockquote>
+<ul>
+<li>RANGE : -128 - +127</li>
+<li>NEW ADDRESS : PC = PC+radd (relative address)<br>
+In radd we will just keep the distance which we want to skip.</li>
+<li>SIZE : 2 bytes .</li>
+</ul>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>SJMP</th>
+<th>radd</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 byte</td>
+<td>1 byte</td>
+</tr>
+</tbody>
+</table>
+<p><img src="data:image/png;base64,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" alt="sjmp"></p>
+<p><i class="fa fa-star" aria-hidden="true"></i> <strong>Absolute jump</strong><br>
+<code>It is a short jump with maximum range.</code></p>
+<table>
+<thead>
+<tr>
+<th>SYNTAX</th>
+<th>:</th>
+<th>AJMP</th>
+<th>sadd</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+<blockquote>
+<ul>
+<li>RANGE : 2KB (within same page).</li>
+<li>NEW ADDRESS : 16-bits</li>
+</ul>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>5 bytes</th>
+<th>3 bytes</th>
+<th>8 bytes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>same page</td>
+<td>8 combinations taken from opcode</td>
+<td>sadd</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<ul>
+<li>SIZE : 2 bytes.</li>
+</ul>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>AJMP</th>
+<th>sadd</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 byte</td>
+<td>1 byte</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>AJMP memory claffication :</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>32-Reg</th>
+<th>range</th>
+<th>pages</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2 kB</td>
+<td>0000</td>
+<td>page 0</td>
+<td>0000 0000 0000 0000</td>
+</tr>
+<tr>
+<td></td>
+<td>07FF</td>
+<td></td>
+<td>0000 0111 1111 1111</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2 KB</td>
+<td>0800</td>
+<td>page 1</td>
+<td>0000 1000 0000 0000</td>
+</tr>
+<tr>
+<td></td>
+<td>0FFF</td>
+<td></td>
+<td>0000 1111 1111 1111</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2 KB</td>
+<td>1000</td>
+<td>page 2</td>
+<td>0001 0000 0000 0000</td>
+</tr>
+<tr>
+<td></td>
+<td>17FF</td>
+<td></td>
+<td>0001 0111 1111 1111</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>:</td>
+<td>:</td>
+<td>:</td>
+<td>:</td>
+</tr>
+<tr>
+<td>2 KB</td>
+<td></td>
+<td>page 31</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+      </div>
+      
+      
+    
+    
+    <script>
+// config mermaid init call
+// http://knsv.github.io/mermaid/#configuration
+//
+// You can edit the 'MERMAID_CONFIG' variable below.
+MERMAID_CONFIG = {
+  startOnLoad: false
+}
+
+if (window['MERMAID_CONFIG']) {
+  window['MERMAID_CONFIG'].startOnLoad = false
+  window['MERMAID_CONFIG'].cloneCssStyles = false
+  window['MERMAID_CONFIG'].theme = "default"
+}
+mermaid.initialize(window['MERMAID_CONFIG'] || {})
+if (typeof(window['Reveal']) !== 'undefined') {
+  function mermaidRevealHelper(event) {
+    var currentSlide = event.currentSlide
+    var diagrams = currentSlide.querySelectorAll('.mermaid')
+    for (var i = 0; i < diagrams.length; i++) {
+      var diagram = diagrams[i]
+      if (!diagram.hasAttribute('data-processed')) {
+        mermaid.init(null, diagram, ()=> {
+          Reveal.slide(event.indexh, event.indexv)
+        })
+      }
+    }
+  }
+  Reveal.addEventListener('slidechanged', mermaidRevealHelper)
+  Reveal.addEventListener('ready', mermaidRevealHelper)
+} else {
+  mermaid.init(null, document.querySelectorAll('.mermaid'))
+}
+</script>
+    
+    
+    
+    
+    
+  
+    </body></html>
